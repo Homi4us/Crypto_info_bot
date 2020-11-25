@@ -173,7 +173,7 @@ bot.onText(/\/balance (.+)/, (msg, match) => {
     
   });
 
-  bot.onText(/\/help/, (msg, match) => {
+  bot.onText(/\/help crypto/, (msg, match) => {
    
     const chatId = msg.chat.id;
     
