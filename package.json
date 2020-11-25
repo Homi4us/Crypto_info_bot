@@ -1,0 +1,21 @@
+{
+  "name": "infobot",
+  "version": "1.0.0",
+  "description": "\"made by Alex Pakhomenko\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "\"Alex Pakhomenko\"",
+  "license": "ISC",
+  "dependencies": {
+    "accounting": "^0.4.1",
+    "axios": "^0.21.0",
+    "currency-formatter": "^1.5.6",
+    "mongoose": "^5.10.16",
+    "node-telegram-bot-api": "^0.50.0",
+    "nodemon": "^2.0.6",
+    "tronweb": "^3.1.0"
+  }
+}
