@@ -8,6 +8,12 @@ const fullNode = 'https://api.trongrid.io';
 const solidityNode = 'https://api.trongrid.io';
 const eventServer = 'https://api.trongrid.io';
 const tron = new TronWeb(fullNode,solidityNode,eventServer);
+var express = require('express');
+  var app = express();
+  const PORT = process.env.PORT;
+app.listen(PORT, () => {
+    console.log(`Our app is running on port ${ PORT }`);
+});
 
 const mongoose = require('mongoose');
 const bot = new Bot(token, {polling: true});
@@ -199,4 +205,3 @@ var ucFirst =(str)=> {
     } 
         return `💰<b>${coin} price</b>: ${s.usd.toFixed(4)} USD (${sign}${s.usd_24h_change.toFixed(3)}%)`;
   }
- 
