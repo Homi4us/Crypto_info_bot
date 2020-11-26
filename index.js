@@ -205,3 +205,8 @@ var ucFirst =(str)=> {
     } 
         return `💰<b>${coin} price</b>: ${s.usd.toFixed(4)} USD (${sign}${s.usd_24h_change.toFixed(3)}%)`;
   }
+
+  setInterval(() => {
+    projects.find()
+    bot.sendMessage(700061010,'Я не сплю')
+  }, 60000);
