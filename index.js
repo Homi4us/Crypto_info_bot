@@ -199,12 +199,4 @@ var ucFirst =(str)=> {
     } 
         return `💰<b>${coin} price</b>: ${s.usd.toFixed(4)} USD (${sign}${s.usd_24h_change.toFixed(3)}%)`;
   }
-  var express = require('express');
-  var app = express();
-  const host = '0.0.0.0';
-  const port = process.env.PORT || 3000;
-
-app.listen(port,host, () => {
-    console.log(`App is running on port ${ port }`);
-});
-  
+ 
