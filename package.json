@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "engines":{
-    "node":"12.13.1"
+  "engines": {
+    "node": "12.13.1"
   },
   "author": "\"Alex Pakhomenko\"",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "axios": "^0.21.0",
     "currency-formatter": "^1.5.6",
     "express": "^4.17.1",
+    "heroku-client": "^3.1.0",
     "mongoose": "^5.10.16",
     "node-telegram-bot-api": "^0.50.0",
     "nodemon": "^2.0.6",

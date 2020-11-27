@@ -1,7 +1,7 @@
 const format = require('accounting');
 const Bot = require('node-telegram-bot-api');
 const token = '1320932102:AAGjVQd4PWcV6-_mJ32-4wHn5MmDag9NzgQ';
-const password = '19121402';
+const password = '07057412';
 
 const TronWeb = require('tronweb');
 const fullNode = 'https://api.trongrid.io';
@@ -47,11 +47,10 @@ bot.onText(/\/add (.+)/, (msg, match) => {
 
     var name = arr[0]; // the name of project
     var address = arr[1] // address of project
-    var pass = arr[2] // password 
-    var link = arr[3] //project link 
+    var pass = arr[2] // password  
 
     if(password == pass){
-        project.create({name: name,address: address,link:link}).then((project)=>{
+        project.create({name: name,address: address}).then((project)=>{
             bot.sendMessage(chatId,`Проект ${name} был добавлен в список`);
           }).catch((err)=>{
             bot.sendMessage(chatId,`Ошибка: ${err}`)
@@ -71,7 +70,7 @@ bot.onText(/\/add (.+)/, (msg, match) => {
     var name = arr[0]; // the name of project 
     var pass = arr[1] // password 
 
-    if(password == pass){
+    if(password == '19121402'){
         project.remove({name: name}).then((project)=>{
             bot.sendMessage(chatId,`Проект ${name} был удален из списка`);
           }).catch((err)=>{
@@ -170,7 +169,7 @@ bot.onText(/\/balance (.+)/, (msg, match) => {
     projects.find().then((res)=>{
         var sms = 'Доступные контракты для просмотра:\n';
         res.forEach((el,index)=>{
-            sms+= `${index+1}) <b>${ucFirst(el.name)}</b> - ${el.link}\n`
+            sms+= `${ucFirst(el.name)}\n`
         })
         sms+=`\nЧтобы проверить баланс контракта наберите команду /balance название_проекта`
         bot.sendMessage(chatId,sms,{parse_mode: 'HTML'})
@@ -186,7 +185,7 @@ bot.onText(/\/balance (.+)/, (msg, match) => {
     var sms = `Доступные команды:\n\n`;
     sms+='/price название_криптовалюты - актуальный курс указанной монеты (Пример - bitcoin, ethereum, tron...)\n\n';
     sms+='/price top - актуальный курс топовых монет\n\n';
-    sms+= '/contracts - список актуальных смарт-контрактов\n\n';
+    sms+= '/contracts - список доступных контрактов для просмотра\n\n';
     sms+='/balance название_проекта - баланс контракта в реальном времени';
 
     bot.sendMessage(chatId,sms);
@@ -209,4 +208,4 @@ var ucFirst =(str)=> {
   setInterval(() => {
     projects.find()
     bot.sendMessage(700061010,'Я не сплю')
-  }, 60000);
+  }, 1000*60*5);
