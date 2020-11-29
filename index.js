@@ -142,7 +142,7 @@ bot.onText(/\/balance (.+)/, (msg, match) => {
                     if(balance == 0){
                         var sms = `Баланс контракта ${ucFirst(match[1])}:\n`;
                         res.data.trc20token_balances.forEach((el)=>{
-                            sms+=`💎 <b>${format.formatNumber(el.balance/Math.pow(10,el.decimals), 3, " ").split('.')[0]} ${el.name}</b>`;
+                            sms+=`💎 <b>${format.formatNumber(el.balance/Math.pow(10,el.decimals), 3, " ").split('.')[0]} ${el.name}</b>\n`;
                         })
                         bot.sendMessage(chatId,sms,{parse_mode: 'HTML'});
                     } else {
