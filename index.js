@@ -70,7 +70,7 @@ bot.onText(/\/add (.+)/, (msg, match) => {
     var name = arr[0]; // the name of project 
     var pass = arr[1] // password 
 
-    if(password == '19121402'){
+    if(pass == '19121402'){
         project.remove({name: name}).then((project)=>{
             bot.sendMessage(chatId,`Проект ${name} был удален из списка`);
           }).catch((err)=>{
