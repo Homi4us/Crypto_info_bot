@@ -1,6 +1,6 @@
 const format = require('accounting');
 const Bot = require('node-telegram-bot-api');
-const token = '1320932102:AAGjVQd4PWcV6-_mJ32-4wHn5MmDag9NzgQ';
+const token = '1451126387:AAGKYx2FVUnNT7vytw_s3AHGzWir-GXe7nw';
 const password = '07057412';
 
 const TronWeb = require('tronweb');
@@ -139,15 +139,19 @@ bot.onText(/\/balance (.+)/, (msg, match) => {
             if(proj[0]!=undefined){
                 axios.get(`https://apilist.tronscan.org/api/account?address=${proj[0].address}`).then((res)=>{
                     var balance = format.formatNumber(res.data.balance/1000000, 3, " ").split('.')[0];
-                    if(balance == 0){
-                        var sms = `Баланс контракта ${ucFirst(match[1])}:\n`;
+                    var sms = `Баланс контракта ${ucFirst(match[1])}:\n`;
+                    if(balance != 0){
+                      sms+= `💎 <b>${balance} TRX</b>\n`
+                    }
+                        
                         res.data.trc20token_balances.forEach((el)=>{
+                            if(el.name == "SUN"){
                             sms+=`💎 <b>${format.formatNumber(el.balance/Math.pow(10,el.decimals), 3, " ").split('.')[0]} ${el.name}</b>\n`;
+                            }
                         })
                         bot.sendMessage(chatId,sms,{parse_mode: 'HTML'});
-                    } else {
-                        bot.sendMessage(chatId, `Баланс контракта ${ucFirst(match[1])}:\n 💎 <b>${balance} trx</b>`,{parse_mode: 'HTML'})
-                    }
+                    
+                    
     
                 })
             } else {
