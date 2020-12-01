@@ -1,6 +1,6 @@
 const format = require('accounting');
 const Bot = require('node-telegram-bot-api');
-const token = '1451126387:AAGKYx2FVUnNT7vytw_s3AHGzWir-GXe7nw';
+const token = '1320932102:AAGjVQd4PWcV6-_mJ32-4wHn5MmDag9NzgQ';
 const password = '07057412';
 
 const TronWeb = require('tronweb');
