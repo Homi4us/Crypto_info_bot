@@ -50,11 +50,16 @@ bot.onText(/\/add (.+)/, (msg, match) => {
     var pass = arr[2] // password  
 
     if(password == pass){
-        project.create({name: name,address: address}).then((project)=>{
-            bot.sendMessage(chatId,`Проект ${name} был добавлен в список`);
-          }).catch((err)=>{
-            bot.sendMessage(chatId,`Ошибка: ${err}`)
-          })
+      axios.get(`https://apilist.tronscan.org/api/account?address=${address}`).then((res)=>{
+        var balance = res.data.balance;
+        project.create({name: name,address: address,balance_1h: balance, balance_24h: balance}).then((project)=>{
+          bot.sendMessage(chatId,`Проект ${name} был добавлен в список`);
+
+        }).catch((err)=>{
+          bot.sendMessage(chatId,`Ошибка: ${err}`)
+        })
+      })
+
     } else {
         bot.sendMessage(chatId,'токен указан неверно!')
     }
@@ -138,10 +143,34 @@ bot.onText(/\/balance (.+)/, (msg, match) => {
         project.find({name:match[1]}).then((proj)=>{
             if(proj[0]!=undefined){
                 axios.get(`https://apilist.tronscan.org/api/account?address=${proj[0].address}`).then((res)=>{
+                  console.log(res.data.tokenBalances)
+                  console.log(res.data.balances)
                     var balance = format.formatNumber(res.data.balance/1000000, 3, " ").split('.')[0];
                     var sms = `Баланс контракта ${ucFirst(match[1])}:\n`;
+                    var coef = res.data.balance/proj[0].balance_1h;
+                    var coef2 = res.data.balance/proj[0].balance_24h;
+                    var percent1;
+                    var percent2;
                     if(balance != 0){
-                      sms+= `💎 <b>${balance} TRX</b>\n`
+                      sms+= `💎 <b>${balance} TRX</b> \n`
+                      if(proj[0].name != 'sunex'){
+                        if(coef > 1){
+                          percent1 = (coef-1)*100;
+                          sms+=`+${percent1.toFixed(3)}% за час\n`
+                        } else {
+                          percent1 = (1-coef)*100;
+                          sms+=`-${percent1.toFixed(3)}% за час\n`
+                        }
+  
+                        if(coef2 > 1){
+                          percent2 = (coef2-1)*100;
+                          sms+=`+${percent2.toFixed(3)}% за день\n`
+                        } else {
+                          percent2 = (1-coef2)*100;
+                          sms+=`-${percent2.toFixed(3)}% за день\n`
+                        }
+  
+                      }
                     }
                         
                         res.data.trc20token_balances.forEach((el)=>{
@@ -210,6 +239,37 @@ var ucFirst =(str)=> {
   }
 
   setInterval(() => {
-    projects.find()
     bot.sendMessage(700061010,'Я не сплю')
   }, 1000*60*5);
+
+setInterval(() => {
+  projects.find().then((res)=>{
+    res.forEach((el,index)=>{
+        axios.get(`https://apilist.tronscan.org/api/account?address=${el.address}`).then((resp)=>{
+            if(resp.data.balance == 0){
+              el.balance_1h = 0;
+              el.save()
+            } else {
+              el.balance_1h = resp.data.balance
+              el.save()
+            }
+        })
+    })
+  })
+}, 1000*60*59);
+
+setInterval(() => {
+  projects.find().then((res)=>{
+    res.forEach((el,index)=>{
+        axios.get(`https://apilist.tronscan.org/api/account?address=${el.address}`).then((resp)=>{
+            if(resp.data.balance == 0){
+              el.balance_24h = 0;
+              el.save()
+            } else {
+              el.balance_24h = resp.data.balance
+              el.save()
+            }
+        })
+    })
+  })
+}, 1000*60*60*24);

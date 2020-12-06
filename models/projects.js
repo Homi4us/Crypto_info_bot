@@ -11,6 +11,14 @@ var Project = new Schema({
     },
     link:{
         type:String
+    },
+    balance_1h:{
+        type: Number,
+        default:0
+    },
+    balance_24h:{
+        type:Number,
+        default: 0
     }
 })
 
